@@ -15,6 +15,8 @@ class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+
+    // Variável que vai armazenar o JSON gerado da nossa lista de contatos
     private var jsonArray: JSONArray? = null
 
     override fun onCreateView(
@@ -29,6 +31,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // geramos uma lista de contatos com n elementos determinado pelo valor do argumento
         val listaContato = gerarContatos(5)
 
         binding.button.setOnClickListener {
@@ -46,6 +49,10 @@ class HomeFragment : Fragment() {
         }
     }
 
+    /**
+     * Método que gera uma lista de contatos "pseudo-randomicamente"
+     * O tamanho da lista é determinado pelo valor do parametro
+     */
     fun gerarContatos(quantidade: Int): MutableList<Contato> {
         val lista = mutableListOf<Contato>()
         for (i in 1..quantidade) {
@@ -59,6 +66,9 @@ class HomeFragment : Fragment() {
         return lista
     }
 
+    /**
+     * Método que recebe uma lista de contato e transforma em um JSON Array
+     */
     fun gerarJSONArray(lista: MutableList<Contato>): JSONArray {
         val jsonArray = JSONArray()
         lista.forEach {
@@ -67,13 +77,21 @@ class HomeFragment : Fragment() {
         return jsonArray
     }
 
+    /**
+     * Método que recebe um JSON Object e retorna um objeto do tipo Contato
+     */
     fun recuperarContato(json: JSONObject): Contato {
+        // recuperamos as informações de um JSON através do método JSONObject.get("chave")
         val idContato = json.get("idContato").toString().toLong()
         val nome = json.get("nome").toString()
         val idade = json.get("idade").toString().toInt()
         return Contato(idContato, nome , idade)
     }
 
+    /**
+     * Método que pega o valor da variavél global jsonArray
+     * e recupera a lista de contatos do JSON
+     */
     fun recuperarListaContato(): MutableList<Contato> {
         val lista = mutableListOf<Contato>()
 

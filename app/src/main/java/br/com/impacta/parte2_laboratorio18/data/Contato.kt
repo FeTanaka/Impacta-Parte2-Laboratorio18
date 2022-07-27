@@ -7,6 +7,9 @@ data class Contato(
     val nome: String,
     val idade: Int
 ) {
+    /**
+     * Método que transforma um objeto Contato em um objeto JSON
+     */
     fun gerarJSON(): JSONObject {
         val json = JSONObject()
         json.put("idContato", this.idContato)
